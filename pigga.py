@@ -54,7 +54,6 @@ def valid(vip):
     for link in soup.find_all('script'):
         if link.get('data-bundlename') == 'page':
             url = link.get('src')
-            #print(url)
             page2 = requests.get(url,verify=False)
             code = vip.split('=')
             if page2.text.find('PrivateServerLinkInvalidDialog')<0 and dupl(code[1]) == False:
@@ -86,13 +85,13 @@ def get():
             page = ses.get(geturl(used2),verify=False,proxies=dict(https='https://' + proxies), timeout=5)
             if page.status_code == 200:
                 used2=used2+1
-        #print(page.status_code)
+
 
         soup = BeautifulSoup(page.text, 'html.parser')
         for link in soup.find_all('a'):
             if link.get('href').find('/url?q=') >=0 and link.get('href').find('google') <0:
                 vip = requests.utils.unquote(link.get('href').replace('/url?q=', ''))
-                #print(vip)
+
                 valid(vip)
     except:
         global err
@@ -106,10 +105,3 @@ while True:
     time.sleep(0.015)
 
 
-
-
-
-"""url = 'https://www.roblox.com/games/920587237/Adopt-Me?privateServerLinkCode=2kjx854Z6IaC4HDppIt_8gNa0mg_sZSD'
-valid(url)
-save('123123123')
-input()"""
